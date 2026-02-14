@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prismia × Koïno - Projection Business Case</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f4c75;
+            --highlight: #3282b8;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --background: #f8f9fa;
+            --text: #2c3e50;
+            --text-light: #7f8c8d;
+            --border: #e1e8ed;
+            --card-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .partnership {
+            font-size: 2rem;
+            color: var(--accent);
+            font-weight: 300;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+            animation: fadeIn 1s ease-out;
+        }
+
+        .tab {
+            font-family: 'Fraunces', serif;
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+        }
+
+        .tab:hover {
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--highlight);
+        }
+
+        .view {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+
+        .card-header {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .data-item {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 12px;
+            border-left: 4px solid var(--highlight);
+            transition: all 0.3s ease;
+        }
+
+        .data-item:hover {
+            border-left-width: 8px;
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .data-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        .data-value {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .data-suffix {
+            font-size: 1rem;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        thead {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        th {
+            padding: 1.2rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s ease;
+        }
+
+        tr:hover td {
+            background: #f8f9fa;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .highlight-row {
+            background: #fff3cd !important;
+            font-weight: 600;
+        }
+
+        .total-row {
+            background: #e8f5e9 !important;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 500px;
+            margin-top: 2rem;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--highlight) 0%, var(--accent) 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(15, 76, 117, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            font-family: 'Fraunces', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-description {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .section-divider {
+            margin: 3rem 0;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--border), transparent);
+        }
+
+        .legend {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .year-section {
+            margin-bottom: 2rem;
+        }
+
+        .year-header {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--highlight);
+            margin: 2rem 0 1rem;
+            padding-left: 1rem;
+            border-left: 4px solid var(--highlight);
+        }
+
+        .key-metric {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .revenue-metric {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .margin-metric {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .roi-metric {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .partnership { font-size: 1.5rem; }
+            .tabs { flex-direction: column; }
+            .chart-container { height: 350px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Projection Business Case</h1>
+            <div class="partnership">Prismia × Koïno</div>
+            <div class="subtitle">Test de 2 mois - Projection sur 3 ans</div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('overview')">📊 Vue d'ensemble</button>
+            <button class="tab" onclick="switchTab('detailed')">📈 Analyse détaillée</button>
+            <button class="tab" onclick="switchTab('charts')">📉 Visualisations</button>
+        </div>
+
+        <!-- VUE 1: Vue d'ensemble -->
+        <div id="overview" class="view active">
+            <div class="card">
+                <div class="card-header">Données Commerciales - Koïno</div>
+                <div class="data-grid">
+                    <div class="data-item">
+                        <div class="data-label">Ticket Moyen Initial</div>
+                        <div class="data-value">50K<span class="data-suffix"> €</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Durée Projet Initial</div>
+                        <div class="data-value">3<span class="data-suffix"> mois</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Paiement Acompte</div>
+                        <div class="data-value">50<span class="data-suffix"> %</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Paiement Solde</div>
+                        <div class="data-value">50<span class="data-suffix"> %</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">CA Moyen Année 1</div>
+                        <div class="data-value">100K<span class="data-suffix"> € / client</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Taux de Conversion</div>
+                        <div class="data-value">50<span class="data-suffix"> %</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Cycle de Vente</div>
+                        <div class="data-value">30<span class="data-suffix"> jours</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Churn Année 1→2</div>
+                        <div class="data-value">30<span class="data-suffix"> %</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Churn Année 2→3</div>
+                        <div class="data-value">30<span class="data-suffix"> %</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Conditions du Test - Prismia</div>
+                <div class="data-grid">
+                    <div class="data-item">
+                        <div class="data-label">Durée du Test</div>
+                        <div class="data-value">2<span class="data-suffix"> mois</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">RDV Qualifiés / Jour</div>
+                        <div class="data-value">1<span class="data-suffix"> rdv</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Total RDV (2 mois)</div>
+                        <div class="data-value">40<span class="data-suffix"> rdv</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Prix par RDV</div>
+                        <div class="data-value">100<span class="data-suffix"> €</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Facturation</div>
+                        <div class="data-value">Toutes les 2<span class="data-suffix"> semaines</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Rémunération Prismia</div>
+                <div class="data-grid">
+                    <div class="data-item">
+                        <div class="data-label">Fixe par RDV</div>
+                        <div class="data-value">100<span class="data-suffix"> €</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Commission Année 1</div>
+                        <div class="data-value">15<span class="data-suffix"> % du CA</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Commission Année 2</div>
+                        <div class="data-value">10<span class="data-suffix"> % du CA</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Commission Année 3+</div>
+                        <div class="data-value">10<span class="data-suffix"> % du CA</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card key-metric">
+                    <div class="stat-label">Clients Projetés (3 ans)</div>
+                    <div class="stat-value" id="total-clients">20</div>
+                    <div class="stat-description">À partir de 40 RDV qualifiés</div>
+                </div>
+                <div class="stat-card revenue-metric">
+                    <div class="stat-label">CA Total Koïno (3 ans)</div>
+                    <div class="stat-value" id="total-revenue">1 834K€</div>
+                    <div class="stat-description">Chiffre d'affaires généré</div>
+                </div>
+                <div class="stat-card margin-metric">
+                    <div class="stat-label">Coût Total Prismia (3 ans)</div>
+                    <div class="stat-value" id="total-cost">211K€</div>
+                    <div class="stat-description">RDV + Commissions</div>
+                </div>
+                <div class="stat-card roi-metric">
+                    <div class="stat-label">Marge Nette (3 ans)</div>
+                    <div class="stat-value" id="net-margin">1 623K€</div>
+                    <div class="stat-description">Après coûts Prismia</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VUE 2: Analyse détaillée -->
+        <div id="detailed" class="view">
+            <div class="card">
+                <div class="card-header">Projection Mensuelle Détaillée - 36 Mois</div>
+                <div class="table-container">
+                    <table id="detailed-table">
+                        <thead>
+                            <tr>
+                                <th>Mois</th>
+                                <th>RDV</th>
+                                <th>Nouveaux Clients</th>
+                                <th>Clients Actifs</th>
+                                <th>CA Koïno</th>
+                                <th>Coût Prismia</th>
+                                <th>Marge</th>
+                                <th>% Marge</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detailed-body">
+                            <!-- Généré par JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Synthèse par Année</div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Année</th>
+                                <th>RDV Total</th>
+                                <th>Nouveaux Clients</th>
+                                <th>Clients Actifs</th>
+                                <th>CA Total Koïno</th>
+                                <th>Coût Total Prismia</th>
+                                <th>Marge Nette</th>
+                                <th>ROI</th>
+                            </tr>
+                        </thead>
+                        <tbody id="yearly-summary">
+                            <!-- Généré par JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- VUE 3: Visualisations -->
+        <div id="charts" class="view">
+            <div class="card">
+                <div class="card-header">Évolution du CA vs Coûts (36 mois)</div>
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Marge Nette Cumulée</div>
+                <div class="chart-container">
+                    <canvas id="marginChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Acquisition & Rétention Clients</div>
+                <div class="chart-container">
+                    <canvas id="clientsChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Répartition des Coûts Prismia</div>
+                <div class="chart-container">
+                    <canvas id="costBreakdownChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // === CALCULS ===
+        const data = {
+            // Données Koïno
+            ticketMoyen: 50000,
+            dureeProjet: 3,
+            caAnnee1ParClient: 100000,
+            tauxConversion: 0.5,
+            cycleVente: 30, // jours
+            churnAn1a2: 0.3,
+            churnAn2a3: 0.3,
+            
+            // Test Prismia
+            dureeTest: 2, // mois
+            rdvParJour: 1,
+            joursOuvrables: 20,
+            prixRdv: 100,
+            
+            // Rémunération Prismia
+            commissionAn1: 0.15,
+            commissionAn2: 0.10,
+            commissionAn3: 0.10,
+        };
+
+        // Calculs
+        const totalRdv = data.rdvParJour * data.joursOuvrables * data.dureeTest; // 40 RDV
+        const clientsConverted = Math.round(totalRdv * data.tauxConversion); // 20 clients
+
+        // Fonction pour calculer les données mensuelles
+        function calculateMonthlyData() {
+            const months = [];
+            let cumulativeClients = 0;
+            let activeClientsY1 = 0;
+            let activeClientsY2 = 0;
+            let activeClientsY3 = 0;
+
+            for (let month = 1; month <= 36; month++) {
+                let rdv = 0;
+                let newClients = 0;
+                let activeClients = 0;
+                let caKoino = 0;
+                let coutPrismiaRdv = 0;
+                let coutPrismiaCommission = 0;
+
+                // Mois 1-2: Phase de test avec RDV
+                if (month <= 2) {
+                    rdv = 20;
+                    coutPrismiaRdv = rdv * data.prixRdv;
+                }
+
+                // Mois 2-3: Conversions (cycle de vente 30j)
+                if (month === 2 || month === 3) {
+                    newClients = 10; // 20 clients sur 2 mois
+                    cumulativeClients += newClients;
+                    activeClientsY1 += newClients;
+                }
+
+                // CA Année 1
+                if (month >= 2 && month <= 13) {
+                    // Projets initiaux (50K) + seconds projets (50K)
+                    if (month === 2 || month === 3) {
+                        // Premier projet: acompte 50%
+                        caKoino = newClients * data.ticketMoyen * 0.5;
+                    } else if (month === 5 || month === 6) {
+                        // Premier projet: solde 50%
+                        caKoino = 10 * data.ticketMoyen * 0.5;
+                    } else if (month >= 8 && month <= 13) {
+                        // Second projet dans l'année 1
+                        if (month === 8 || month === 9) {
+                            caKoino = 10 * data.ticketMoyen * 0.5; // Acompte
+                        } else if (month === 11 || month === 12) {
+                            caKoino = 10 * data.ticketMoyen * 0.5; // Solde
+                        }
+                    }
+                    
+                    if (caKoino > 0) {
+                        coutPrismiaCommission = caKoino * data.commissionAn1;
+                    }
+                }
+
+                // Année 2: 70% des clients restent (14 clients)
+                if (month === 14) {
+                    activeClientsY2 = Math.round(activeClientsY1 * (1 - data.churnAn1a2));
+                    activeClientsY1 = 0;
+                }
+
+                if (month >= 14 && month <= 25) {
+                    // Projets année 2
+                    const monthInYear = month - 13;
+                    if (monthInYear === 1 || monthInYear === 2) {
+                        caKoino = activeClientsY2 * data.ticketMoyen * 0.5; // Acompte
+                    } else if (monthInYear === 4 || monthInYear === 5) {
+                        caKoino = activeClientsY2 * data.ticketMoyen * 0.5; // Solde
+                    }
+                    
+                    if (caKoino > 0) {
+                        coutPrismiaCommission = caKoino * data.commissionAn2;
+                    }
+                }
+
+                // Année 3: 70% des clients Y2 restent (10 clients)
+                if (month === 26) {
+                    activeClientsY3 = Math.round(activeClientsY2 * (1 - data.churnAn2a3));
+                    activeClientsY2 = 0;
+                }
+
+                if (month >= 26 && month <= 36) {
+                    const monthInYear = month - 25;
+                    if (monthInYear === 1 || monthInYear === 2) {
+                        caKoino = activeClientsY3 * data.ticketMoyen * 0.5;
+                    } else if (monthInYear === 4 || monthInYear === 5) {
+                        caKoino = activeClientsY3 * data.ticketMoyen * 0.5;
+                    }
+                    
+                    if (caKoino > 0) {
+                        coutPrismiaCommission = caKoino * data.commissionAn3;
+                    }
+                }
+
+                activeClients = activeClientsY1 + activeClientsY2 + activeClientsY3;
+                const coutPrismiaTotal = coutPrismiaRdv + coutPrismiaCommission;
+                const marge = caKoino - coutPrismiaTotal;
+                const pctMarge = caKoino > 0 ? (marge / caKoino * 100) : 0;
+
+                months.push({
+                    month,
+                    rdv,
+                    newClients,
+                    activeClients,
+                    caKoino,
+                    coutPrismiaRdv,
+                    coutPrismiaCommission,
+                    coutPrismiaTotal,
+                    marge,
+                    pctMarge
+                });
+            }
+
+            return months;
+        }
+
+        const monthlyData = calculateMonthlyData();
+
+        // Calculs des totaux
+        const totalRevenue = monthlyData.reduce((sum, m) => sum + m.caKoino, 0);
+        const totalCostRdv = monthlyData.reduce((sum, m) => sum + m.coutPrismiaRdv, 0);
+        const totalCostCommission = monthlyData.reduce((sum, m) => sum + m.coutPrismiaCommission, 0);
+        const totalCost = totalCostRdv + totalCostCommission;
+        const totalMargin = totalRevenue - totalCost;
+
+        // Mise à jour des stats
+        document.getElementById('total-clients').textContent = clientsConverted;
+        document.getElementById('total-revenue').textContent = (totalRevenue / 1000).toFixed(0) + 'K€';
+        document.getElementById('total-cost').textContent = (totalCost / 1000).toFixed(0) + 'K€';
+        document.getElementById('net-margin').textContent = (totalMargin / 1000).toFixed(0) + 'K€';
+
+        // === TABLEAU DÉTAILLÉ ===
+        function populateDetailedTable() {
+            const tbody = document.getElementById('detailed-body');
+            tbody.innerHTML = '';
+
+            let cumulativeRevenue = 0;
+            let cumulativeCost = 0;
+            let cumulativeMargin = 0;
+
+            monthlyData.forEach(m => {
+                cumulativeRevenue += m.caKoino;
+                cumulativeCost += m.coutPrismiaTotal;
+                cumulativeMargin += m.marge;
+
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td><strong>M${m.month}</strong></td>
+                    <td>${m.rdv}</td>
+                    <td>${m.newClients}</td>
+                    <td>${m.activeClients}</td>
+                    <td><strong>${(m.caKoino / 1000).toFixed(1)}K€</strong></td>
+                    <td style="color: #e74c3c;">${(m.coutPrismiaTotal / 1000).toFixed(1)}K€</td>
+                    <td style="color: ${m.marge >= 0 ? '#27ae60' : '#e74c3c'};">
+                        <strong>${(m.marge / 1000).toFixed(1)}K€</strong>
+                    </td>
+                    <td>${m.pctMarge.toFixed(1)}%</td>
+                `;
+                
+                if (m.month === 12 || m.month === 24 || m.month === 36) {
+                    row.classList.add('highlight-row');
+                }
+            });
+
+            // Ligne de total
+            const totalRow = tbody.insertRow();
+            totalRow.classList.add('total-row');
+            totalRow.innerHTML = `
+                <td colspan="4"><strong>TOTAL 3 ANS</strong></td>
+                <td><strong>${(cumulativeRevenue / 1000).toFixed(0)}K€</strong></td>
+                <td style="color: #e74c3c;"><strong>${(cumulativeCost / 1000).toFixed(0)}K€</strong></td>
+                <td style="color: #27ae60;"><strong>${(cumulativeMargin / 1000).toFixed(0)}K€</strong></td>
+                <td><strong>${(cumulativeMargin / cumulativeRevenue * 100).toFixed(1)}%</strong></td>
+            `;
+        }
+
+        // === SYNTHÈSE ANNUELLE ===
+        function populateYearlySummary() {
+            const tbody = document.getElementById('yearly-summary');
+            tbody.innerHTML = '';
+
+            for (let year = 1; year <= 3; year++) {
+                const startMonth = (year - 1) * 12 + 1;
+                const endMonth = year * 12;
+                
+                const yearData = monthlyData.filter(m => m.month >= startMonth && m.month <= endMonth);
+                
+                const rdvTotal = yearData.reduce((sum, m) => sum + m.rdv, 0);
+                const newClientsTotal = yearData.reduce((sum, m) => sum + m.newClients, 0);
+                const maxActiveClients = Math.max(...yearData.map(m => m.activeClients));
+                const caTotal = yearData.reduce((sum, m) => sum + m.caKoino, 0);
+                const coutTotal = yearData.reduce((sum, m) => sum + m.coutPrismiaTotal, 0);
+                const margeTotal = caTotal - coutTotal;
+                const roi = coutTotal > 0 ? ((caTotal - coutTotal) / coutTotal * 100) : 0;
+
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td><strong>Année ${year}</strong></td>
+                    <td>${rdvTotal}</td>
+                    <td>${newClientsTotal}</td>
+                    <td>${maxActiveClients}</td>
+                    <td><strong>${(caTotal / 1000).toFixed(0)}K€</strong></td>
+                    <td style="color: #e74c3c;">${(coutTotal / 1000).toFixed(0)}K€</td>
+                    <td style="color: #27ae60;"><strong>${(margeTotal / 1000).toFixed(0)}K€</strong></td>
+                    <td><strong style="color: #27ae60;">×${(roi / 100 + 1).toFixed(1)}</strong></td>
+                `;
+            }
+        }
+
+        // === GRAPHIQUES ===
+        let revenueChart, marginChart, clientsChart, costBreakdownChart;
+
+        function createCharts() {
+            const months = monthlyData.map(m => `M${m.month}`);
+            const revenues = monthlyData.map(m => m.caKoino / 1000);
+            const costs = monthlyData.map(m => m.coutPrismiaTotal / 1000);
+            const margins = monthlyData.map(m => m.marge / 1000);
+            
+            // Cumulative data
+            let cumulativeMargins = [];
+            let cumSum = 0;
+            monthlyData.forEach(m => {
+                cumSum += m.marge / 1000;
+                cumulativeMargins.push(cumSum);
+            });
+
+            // Chart 1: CA vs Coûts
+            const ctx1 = document.getElementById('revenueChart').getContext('2d');
+            revenueChart = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [
+                        {
+                            label: 'CA Koïno',
+                            data: revenues,
+                            borderColor: '#3282b8',
+                            backgroundColor: 'rgba(50, 130, 184, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Coût Prismia',
+                            data: costs,
+                            borderColor: '#e74c3c',
+                            backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: { size: 14, family: "'DM Sans', sans-serif" },
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            padding: 12,
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 13 },
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + 'K€';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + 'K€';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Chart 2: Marge cumulée
+            const ctx2 = document.getElementById('marginChart').getContext('2d');
+            marginChart = new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Marge Nette Cumulée',
+                        data: cumulativeMargins,
+                        borderColor: '#27ae60',
+                        backgroundColor: 'rgba(39, 174, 96, 0.2)',
+                        borderWidth: 4,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: { size: 14, family: "'DM Sans', sans-serif" },
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            padding: 12,
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Marge cumulée: ' + context.parsed.y.toFixed(0) + 'K€';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + 'K€';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Chart 3: Clients
+            const ctx3 = document.getElementById('clientsChart').getContext('2d');
+            const newClients = monthlyData.map(m => m.newClients);
+            const activeClients = monthlyData.map(m => m.activeClients);
+
+            clientsChart = new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [
+                        {
+                            label: 'Nouveaux Clients',
+                            data: newClients,
+                            backgroundColor: 'rgba(52, 152, 219, 0.8)',
+                            borderColor: '#3498db',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Clients Actifs',
+                            data: activeClients,
+                            backgroundColor: 'rgba(155, 89, 182, 0.8)',
+                            borderColor: '#9b59b6',
+                            borderWidth: 2,
+                            type: 'line',
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: { size: 14, family: "'DM Sans', sans-serif" },
+                                padding: 20
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Chart 4: Répartition des coûts
+            const ctx4 = document.getElementById('costBreakdownChart').getContext('2d');
+            costBreakdownChart = new Chart(ctx4, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Coût RDV Fixes', 'Commissions Année 1', 'Commissions Année 2', 'Commissions Année 3'],
+                    datasets: [{
+                        data: [
+                            totalCostRdv / 1000,
+                            monthlyData.filter(m => m.month <= 13).reduce((sum, m) => sum + m.coutPrismiaCommission, 0) / 1000,
+                            monthlyData.filter(m => m.month >= 14 && m.month <= 25).reduce((sum, m) => sum + m.coutPrismiaCommission, 0) / 1000,
+                            monthlyData.filter(m => m.month >= 26).reduce((sum, m) => sum + m.coutPrismiaCommission, 0) / 1000
+                        ],
+                        backgroundColor: [
+                            'rgba(231, 76, 60, 0.8)',
+                            'rgba(52, 152, 219, 0.8)',
+                            'rgba(155, 89, 182, 0.8)',
+                            'rgba(46, 204, 113, 0.8)'
+                        ],
+                        borderWidth: 3,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                font: { size: 14, family: "'DM Sans', sans-serif" },
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            padding: 12,
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return label + ': ' + value.toFixed(1) + 'K€ (' + percentage + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // === NAVIGATION ===
+        function switchTab(tabName) {
+            // Masquer toutes les vues
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            
+            // Afficher la vue sélectionnée
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Créer les graphiques si nécessaire
+            if (tabName === 'charts' && !revenueChart) {
+                setTimeout(createCharts, 100);
+            }
+        }
+
+        // Initialisation
+        populateDetailedTable();
+        populateYearlySummary();
+    </script>
+</body>
+</html>
